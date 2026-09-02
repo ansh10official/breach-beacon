@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
 import { useState, type FormEvent } from "react";
 
 import { BreachCard } from "@/components/breach-card";
@@ -32,10 +31,9 @@ const PAGE = 3;
 function Index() {
   const [email, setEmail] = useState("");
   const [visible, setVisible] = useState(PAGE);
-  const runCheck = useServerFn(checkEmail);
 
   const scan = useMutation({
-    mutationFn: (value: string) => runCheck({ data: { email: value } }),
+    mutationFn: (value: string) => checkEmail({ data: { email: value } }),
     onSuccess: () => setVisible(PAGE),
   });
 

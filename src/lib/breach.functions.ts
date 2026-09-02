@@ -49,6 +49,21 @@ type CatalogEntry = {
   referenceURL?: string;
 };
 
+type BreachDetail = {
+  breach?: string;
+  details?: string;
+  domain?: string;
+  industry?: string;
+  logo?: string;
+  password_risk?: string;
+  references?: string;
+  verified?: string;
+  xposed_data?: string;
+  xposed_date?: string;
+  xposed_records?: number;
+  added?: string;
+};
+
 const clean = (value: string) => value.trim().replace(/^ail addresses$/i, "Email addresses");
 
 async function fetchCatalog(): Promise<Map<string, CatalogEntry>> {
@@ -84,7 +99,7 @@ export const checkEmail = createServerFn({ method: "POST" })
     }
 
     const json = (await res.json()) as {
-      ExposedBreaches?: { breaches_details?: Record<string, unknown>[] } | null;
+      ExposedBreaches?: { breaches_details?: BreachDetail[] } | null;
       BreachMetrics?: {
         risk?: { risk_label?: string; risk_score?: number }[];
         xposed_data?: { children?: { children?: { name?: string; value?: number }[] }[] }[];
@@ -112,8 +127,7 @@ export const checkEmail = createServerFn({ method: "POST" })
 
     const catalog = await fetchCatalog();
 
-    const breaches: BreachRecord[] = details.map((raw) => {
-      const d = raw as Record<string, string | number | undefined>;
+    const breaches: BreachRecord[] = details.map((d) => {
       const id = String(d.breach ?? "Unknown");
       const cat = catalog.get(id);
       const types = String(d.xposed_data ?? "")
