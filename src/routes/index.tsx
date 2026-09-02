@@ -214,7 +214,7 @@ function Verdict({ report }: { report: BreachReport }) {
             <p className="font-mono text-[11px] uppercase tracking-wider text-muted">Data types</p>
           </div>
           <div>
-            <p className="font-mono text-3xl text-cream">{report.riskLabel}</p>
+            <p className="font-mono text-2xl text-cream">{report.riskLabel}</p>
             <p className="font-mono text-[11px] uppercase tracking-wider text-muted">Risk level</p>
           </div>
         </div>
