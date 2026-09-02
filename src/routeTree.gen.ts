@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BreachesRouteImport } from './routes/breaches'
+import { Route as MethodRouteImport } from './routes/method'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BreachesRoute = BreachesRouteImport.update({
+  id: '/breaches',
+  path: '/breaches',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MethodRoute = MethodRouteImport.update({
+  id: '/method',
+  path: '/method',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/breaches': typeof BreachesRoute
+  '/method': typeof MethodRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/breaches': typeof BreachesRoute
+  '/method': typeof MethodRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/breaches': typeof BreachesRoute
+  '/method': typeof MethodRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/breaches' | '/method'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/breaches' | '/method'
+  id: '__root__' | '/' | '/breaches' | '/method'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BreachesRoute: typeof BreachesRoute
+  MethodRoute: typeof MethodRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/breaches': {
+      id: '/breaches'
+      path: '/breaches'
+      fullPath: '/breaches'
+      preLoaderRoute: typeof BreachesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/method': {
+      id: '/method'
+      path: '/method'
+      fullPath: '/method'
+      preLoaderRoute: typeof MethodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BreachesRoute: BreachesRoute,
+  MethodRoute: MethodRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
