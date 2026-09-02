@@ -35,7 +35,7 @@ function Index() {
   const runCheck = useServerFn(checkEmail);
 
   const scan = useMutation({
-    mutationFn: (value: string) => checkEmailSafe(runCheck, value),
+    mutationFn: (value: string) => runCheck({ data: { email: value } }),
     onSuccess: () => setVisible(PAGE),
   });
 
@@ -244,8 +244,4 @@ function Verdict({ report }: { report: BreachReport }) {
       </div>
     </section>
   );
-}
-
-async function checkEmailSafe(fn: typeof checkEmail, email: string) {
-  return fn({ data: { email } });
 }
